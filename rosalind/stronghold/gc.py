@@ -6,7 +6,7 @@ def readFile(filePath):
 
 def gc_content(seq):
     """GC content in DNA/RNA sequence"""
-    return (seq.count("C") + seq.count("G")) / len(seq) * 100
+    return round((seq.count("C") + seq.count("G")) / len(seq) * 100, 6)
 
 
 # Unpacks file contents into list
