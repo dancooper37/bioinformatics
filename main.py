@@ -6,7 +6,7 @@ import time
 start_time = time.time()
 
 # Creates random DNA sequence for testing
-randDNAStr = "".join([random.choice(Nucleotides) for nuc in range(10000)])
+randDNAStr = "".join([random.choice(Nucleotides) for nuc in range(50)])
 
 DNAStr = validateSeq(randDNAStr)
 
@@ -26,10 +26,14 @@ print(f"[6] + GC Content in Subsection k = 5 of DNA: {gc_content_subsec(DNAStr, 
 
 print(f"[7] + Amino Acid Sequence from DNA: {' '.join(translate_seq(DNAStr))}\n")
 
-print(f"[8] + Codon Frequencies")
+print(f"[8] + Codon Frequencies\n")
 for i in DNA_Codons_List:
     print(f"      [{i}] = {codon_usage(DNAStr, i[:1])}")
 
-print(f"\n[9] Execution Time: {round(time.time()-start_time, 4)} seconds ")
+print(f"\n[9] + Reading frames:\n")
+for frame in gen_reading_frames(DNAStr):
+    print(frame)
+
+print(f"\n[END] Execution Time: {round(time.time()-start_time, 4)} seconds ")
 
 

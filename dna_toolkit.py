@@ -66,3 +66,15 @@ def codon_usage(seq, aminoacid):
         freqDict[seq] = round(freqDict[seq] / totalWeight, 2)
     return freqDict
 
+def gen_reading_frames(seq):
+    """Generate the six reading frames of a DNA sequence, including the reverse compliment"""
+    frames = []
+    frames.append(translate_seq(seq, 0))
+    frames.append(translate_seq(seq, 1))
+    frames.append(translate_seq(seq, 2))
+    frames.append(translate_seq(reverse_compliment(seq), 0))
+    frames.append(translate_seq(reverse_compliment(seq), 1))
+    frames.append(translate_seq(reverse_compliment(seq), 2))
+    return frames
+
+
