@@ -34,6 +34,10 @@ print(f"\n[9] + Reading frames:\n")
 for frame in gen_reading_frames(DNAStr):
     print(frame)
 
+print(f"\n[10] + Possible proteins found in reading frames:")
+for protein in all_proteins_from_rf(DNAStr, 0, 0, True):
+    print(f"{protein}")
+
 print(f"\n[END] Execution Time: {round(time.time()-start_time, 4)} seconds ")
 
 

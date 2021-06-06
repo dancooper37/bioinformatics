@@ -66,15 +66,56 @@ def codon_usage(seq, aminoacid):
         freqDict[seq] = round(freqDict[seq] / totalWeight, 2)
     return freqDict
 
+
 def gen_reading_frames(seq):
     """Generate the six reading frames of a DNA sequence, including the reverse compliment"""
-    frames = []
-    frames.append(translate_seq(seq, 0))
-    frames.append(translate_seq(seq, 1))
-    frames.append(translate_seq(seq, 2))
-    frames.append(translate_seq(reverse_compliment(seq), 0))
-    frames.append(translate_seq(reverse_compliment(seq), 1))
-    frames.append(translate_seq(reverse_compliment(seq), 2))
+    frames = [
+        translate_seq(seq, 0),
+        translate_seq(seq, 1),
+        translate_seq(seq, 2),
+        translate_seq(reverse_compliment(seq), 0),
+        translate_seq(reverse_compliment(seq), 1),
+        translate_seq(reverse_compliment(seq), 2)
+    ]
     return frames
+
+
+def proteins_from_rf(aaSeq):
+    """Finds all possible proteins from an AA sequence in reading frame. Returns list of possible proteins"""
+    currentProtein = []
+    proteins = []
+    for aa in aaSeq:
+        # Stop protein list if _ marker found
+        if aa[:1] == "_":  # index used to align with structures.py format"
+            if currentProtein:
+                for p in currentProtein:
+                    proteins.append(p)
+                currentProtein = []
+        else:
+            # Start protein list if methionine found
+            if aa[:1] == "M":
+                currentProtein.append("")
+            for i in range(len(currentProtein)):
+                currentProtein[i] += aa
+    return proteins
+
+
+def all_proteins_from_rf(seq, startReadPos = 0, endReadPos = 0, ordered = False):
+    """Find all possible proteins for all open reading frames"""
+    if endReadPos > startReadPos:
+        rfs = gen_reading_frames(seq[startReadPos:endReadPos])
+    else:
+        rfs = gen_reading_frames(seq)
+
+    res = []
+    for rf in rfs:
+        proteins = proteins_from_rf(rf)
+        for p in proteins:
+            res.append(p)
+
+    if ordered:
+        return sorted(res, key = len, reverse = True)
+    return res
+
 
 
