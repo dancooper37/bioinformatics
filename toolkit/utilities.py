@@ -46,13 +46,27 @@ def unpackFASTAToDict(url):
     return FASTADict
 
 
+def unpackFASTAToList(url):
+    """Unpacks the contents of a FASTA file into a list, strips any line starting with >"""
+    FASTAFile = readFile(url)
+    FASTAList = []
+
+    for line in FASTAFile:
+        if ">" in line:
+            FASTALabel = line
+        else:
+            FASTAList.append(line)
+
+    return FASTAList
+
+
 def unpackFASTAToStr(url):
     """Unpacks the contents of a FASTA file into a single string"""
     # Unpacks file contents into list
     FASTAFile = readFile(url)
     FASTAStr = ""
 
-    # Converts FASTA list file data into dictionary
+    # Converts FASTA list file data into string
     for line in FASTAFile:
         if ">" in line:
             FASTALabel = line
